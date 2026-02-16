@@ -1,0 +1,16 @@
+.env
+.git
+.github
+.gitignore
+.venv
+venv
+__pycache__
+*.pyc
+*.egg-info
+chroma_data
+frontend
+.streamlit
+scripts
+*.md
+!data/*.md
+LICENSE
