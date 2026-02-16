@@ -24,15 +24,20 @@ echo "Using: $DC"
 $DC build
 $DC up -d --force-recreate
 
-# Wait and check health
-sleep 5
-if curl -sf http://localhost:8000/api/health > /dev/null; then
-    echo "=== Health check passed ==="
-else
-    echo "=== WARNING: Health check failed ==="
-    $DC logs --tail 20
-    exit 1
-fi
+# Wait for ingestion + server startup, retry health check every 5s up to 60s
+echo "Waiting for server to start..."
+for i in $(seq 1 12); do
+    if curl -sf http://localhost:8000/api/health > /dev/null 2>&1; then
+        echo "=== Health check passed ==="
+        break
+    fi
+    if [ "$i" -eq 12 ]; then
+        echo "=== WARNING: Health check failed after 60s ==="
+        $DC logs --tail 30
+        exit 1
+    fi
+    sleep 5
+done
 
 # Clean up old images
 docker image prune -f
