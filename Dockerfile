@@ -10,10 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app/ app/
 COPY data/ data/
 
-# Ingest biography into ChromaDB at build time
-# (vectors baked into the image — no runtime API call needed for ingestion)
-RUN python -m app.ingest
-
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Ingest data at startup (needs API keys from .env), then start server
+CMD ["sh", "-c", "python -m app.ingest && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
