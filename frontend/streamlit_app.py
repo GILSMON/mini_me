@@ -8,20 +8,17 @@ try:
 except (FileNotFoundError, KeyError):
     BACKEND_URL = "http://localhost:8000"
 
-# ── WhatsApp-style theme ────────────────────────────────────────────
+# ── Dark + WhatsApp green theme ─────────────────────────────────────
 st.markdown("""
 <style>
-/* ─── Reset & base ─── */
+/* ─── Reset & base — dark background ─── */
 .stApp {
-    background-color: #efeae2;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4ccb9' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-color: #0b141a !important;
 }
 
 /* ─── Hide Streamlit chrome ─── */
-#MainMenu, footer, header[data-testid="stHeader"] {
-    display: none !important;
-}
-.stDeployButton {
+#MainMenu, footer, header[data-testid="stHeader"],
+.stDeployButton, [data-testid="stToolbar"] {
     display: none !important;
 }
 
@@ -39,35 +36,37 @@ st.markdown("""
     position: sticky;
     top: 0;
     z-index: 999;
-    background-color: #075e54;
-    padding: 14px 20px;
+    background-color: #1f2c34;
+    padding: 12px 16px;
     display: flex;
     align-items: center;
     gap: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    border-bottom: 1px solid #2a3942;
 }
 .wa-header-avatar {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     background-color: #25d366;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
     flex-shrink: 0;
 }
 .wa-header-info h3 {
-    color: #ffffff;
+    color: #e9edef;
     margin: 0;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 600;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 .wa-header-info p {
-    color: #a8d8b0;
+    color: #25d366;
     margin: 1px 0 0 0;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -77,7 +76,7 @@ st.markdown("""
     padding-bottom: 80px !important;
 }
 
-/* ─── Hide ALL avatars (robot icon, user icon) ─── */
+/* ─── Hide ALL avatars ─── */
 .stChatMessage .stAvatar,
 [data-testid="stChatMessageAvatarUser"],
 [data-testid="stChatMessageAvatarAssistant"],
@@ -96,39 +95,39 @@ st.markdown("""
     max-width: 80% !important;
     padding: 8px 14px !important;
     margin-bottom: 4px !important;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.08);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
-/* ─── User bubble — WhatsApp light green, right-aligned ─── */
+/* ─── User bubble — WhatsApp dark green, right-aligned ─── */
 .stChatMessage[data-testid="chat-message-user"] {
-    background-color: #d9fdd3 !important;
+    background-color: #005c4b !important;
     border-radius: 10px 10px 2px 10px !important;
     margin-left: auto !important;
     margin-right: 8px !important;
 }
 
-/* ─── Assistant bubble — white, left-aligned ─── */
+/* ─── Assistant bubble — dark gray, left-aligned ─── */
 .stChatMessage[data-testid="chat-message-assistant"] {
-    background-color: #ffffff !important;
+    background-color: #1f2c34 !important;
     border-radius: 10px 10px 10px 2px !important;
     margin-right: auto !important;
     margin-left: 8px !important;
 }
 
-/* ─── Text inside bubbles — dark, readable ─── */
+/* ─── Text inside bubbles — white, readable ─── */
 .stChatMessage[data-testid="chat-message-user"] *,
 .stChatMessage[data-testid="chat-message-assistant"] * {
-    color: #111b21 !important;
+    color: #e9edef !important;
     font-size: 0.95rem !important;
-    line-height: 1.5 !important;
+    line-height: 1.55 !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
 
-/* ─── Chat input — fixed at bottom ─── */
+/* ─── Chat input — dark bottom bar ─── */
 .stChatFloatingInputContainer,
 [data-testid="stChatInput"] {
-    background-color: #f0f2f5 !important;
-    border-top: none !important;
+    background-color: #1f2c34 !important;
+    border-top: 1px solid #2a3942 !important;
     padding: 8px 12px !important;
 }
 .stChatInput {
@@ -137,15 +136,15 @@ st.markdown("""
 }
 .stChatInput textarea {
     border-radius: 24px !important;
-    background-color: #ffffff !important;
-    color: #111b21 !important;
+    background-color: #2a3942 !important;
+    color: #e9edef !important;
     font-size: 0.95rem !important;
-    border: 1px solid #d1d7db !important;
+    border: none !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     padding: 10px 16px !important;
 }
 .stChatInput textarea:focus {
-    border-color: #25d366 !important;
+    border: none !important;
     box-shadow: none !important;
 }
 .stChatInput textarea::placeholder {
@@ -157,17 +156,52 @@ st.markdown("""
     color: white !important;
 }
 
-/* ─── Spinner (typing indicator) ─── */
+/* ─── Spinner ─── */
 .stSpinner > div {
     border-top-color: #25d366 !important;
 }
 
-/* ─── Scrollbar ─── */
+/* ─── Scrollbar (dark) ─── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background-color: #b8b8b8; border-radius: 10px; }
+::-webkit-scrollbar-thumb { background-color: #374045; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background-color: #25d366; }
+
+/* ─── Mobile optimization ─── */
+@media (max-width: 768px) {
+    .block-container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    .stChatMessage {
+        max-width: 88% !important;
+        padding: 6px 12px !important;
+        font-size: 0.9rem !important;
+    }
+    .stChatMessage[data-testid="chat-message-user"] *,
+    .stChatMessage[data-testid="chat-message-assistant"] * {
+        font-size: 0.9rem !important;
+    }
+    .wa-header {
+        padding: 10px 12px;
+    }
+    .wa-header-avatar {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+    .wa-header-info h3 {
+        font-size: 0.95rem;
+    }
+    .stChatInput textarea {
+        font-size: 0.9rem !important;
+        padding: 8px 12px !important;
+    }
+}
+
+/* ─── viewport meta for mobile ─── */
 </style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 """, unsafe_allow_html=True)
 
 # ── Sticky header ───────────────────────────────────────────────────
