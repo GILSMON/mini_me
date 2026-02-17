@@ -1,7 +1,14 @@
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app.config import settings
+
+CHAT_LOG = Path("./logs/chat_log.jsonl")
+CHAT_LOG.parent.mkdir(exist_ok=True)
 from app.embeddings.gemini import GeminiEmbedding
 from app.llm.gemini import GeminiLLM
 from app.llm.groq_llm import GroqLLM
@@ -43,6 +50,9 @@ async def chat(req: ChatRequest):
         if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
             raise HTTPException(status_code=429, detail="Rate limit hit. Please wait a moment and try again.")
         raise HTTPException(status_code=500, detail=str(e))
+    with open(CHAT_LOG, "a") as f:
+        f.write(json.dumps({"ts": datetime.now(timezone.utc).isoformat(), "q": req.message, "a": result["answer"]}) + "\n")
+
     return ChatResponse(**result)
 
 

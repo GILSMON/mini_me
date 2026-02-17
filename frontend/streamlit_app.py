@@ -129,7 +129,7 @@ st.markdown("""
 /* ─── Text inside bubbles — white, readable ─── */
 .stChatMessage[data-testid="chat-message-user"] *,
 .stChatMessage[data-testid="chat-message-assistant"] * {
-    color: #e9edef !important;
+    color: #ffffff !important;
     font-size: 0.95rem !important;
     line-height: 1.55 !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
@@ -159,7 +159,7 @@ st.markdown("""
 .stChatInput textarea {
     border-radius: 24px !important;
     background-color: #2a3942 !important;
-    color: #e9edef !important;
+    color: #ffffff !important;
     font-size: 0.95rem !important;
     border: none !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;

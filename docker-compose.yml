@@ -10,6 +10,7 @@ services:
     volumes:
       # Persist ChromaDB vectors across container restarts
       - chroma_data:/app/chroma_data
+      - chat_logs:/app/logs
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
       interval: 30s
@@ -19,3 +20,4 @@ services:
 
 volumes:
   chroma_data:
+  chat_logs:
