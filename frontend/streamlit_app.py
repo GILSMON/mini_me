@@ -334,7 +334,7 @@ for msg in st.session_state.messages:
         st.markdown(msg["content"])
 
 # ── Chat input (pinned to bottom by Streamlit) ─────────────────────
-if prompt := st.chat_input("Type a message"):
+if prompt := st.chat_input("Ask me anything... e.g., What's your favourite movie?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
