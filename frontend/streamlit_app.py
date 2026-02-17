@@ -129,10 +129,20 @@ st.markdown("""
     background-color: #1f2c34 !important;
     border-top: 1px solid #2a3942 !important;
     padding: 8px 12px !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 998 !important;
+    max-width: 720px !important;
+    margin: 0 auto !important;
 }
 .stChatInput {
     border-radius: 24px !important;
-    overflow: hidden;
+    overflow: visible !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
 }
 .stChatInput textarea {
     border-radius: 24px !important;
@@ -142,6 +152,8 @@ st.markdown("""
     border: none !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     padding: 10px 16px !important;
+    min-height: 40px !important;
+    max-height: 100px !important;
 }
 .stChatInput textarea:focus {
     border: none !important;
@@ -154,6 +166,15 @@ st.markdown("""
     background-color: #25d366 !important;
     border-radius: 50% !important;
     color: white !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
 }
 
 /* ─── Spinner ─── */
@@ -173,10 +194,14 @@ st.markdown("""
         max-width: 100% !important;
         padding: 0 !important;
     }
+    .stChatFloatingInputContainer,
+    [data-testid="stChatInput"] {
+        max-width: 100% !important;
+        padding: 6px 8px !important;
+    }
     .stChatMessage {
         max-width: 88% !important;
         padding: 6px 12px !important;
-        font-size: 0.9rem !important;
     }
     .stChatMessage[data-testid="chat-message-user"] *,
     .stChatMessage[data-testid="chat-message-assistant"] * {
@@ -184,6 +209,11 @@ st.markdown("""
     }
     .wa-header {
         padding: 10px 12px;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1000 !important;
     }
     .wa-header-avatar {
         width: 34px;
@@ -194,14 +224,69 @@ st.markdown("""
         font-size: 0.95rem;
     }
     .stChatInput textarea {
-        font-size: 0.9rem !important;
+        font-size: 16px !important;
         padding: 8px 12px !important;
     }
+    /* Pad content so it's not hidden behind fixed header/input */
+    .stChatMessageContainer,
+    [data-testid="stChatMessageContainer"] {
+        padding-top: 60px !important;
+        padding-bottom: 70px !important;
+    }
 }
-
-/* ─── viewport meta for mobile ─── */
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<script>
+(function() {
+    // Mobile keyboard-aware layout using visualViewport API
+    if (!window.visualViewport) return;
+
+    function adjustForKeyboard() {
+        var vv = window.visualViewport;
+        var inputBar = document.querySelector('[data-testid="stChatInput"]')
+            || document.querySelector('.stChatFloatingInputContainer');
+        if (!inputBar) return;
+
+        var keyboardHeight = window.innerHeight - vv.height;
+
+        if (keyboardHeight > 100) {
+            // Keyboard is open — move input above keyboard
+            inputBar.style.bottom = keyboardHeight + 'px';
+            // Scroll to latest message
+            var msgs = document.querySelectorAll('.stChatMessage');
+            if (msgs.length > 0) {
+                msgs[msgs.length - 1].scrollIntoView({block: 'end', behavior: 'smooth'});
+            }
+        } else {
+            // Keyboard closed — reset
+            inputBar.style.bottom = '0px';
+        }
+    }
+
+    window.visualViewport.addEventListener('resize', adjustForKeyboard);
+    window.visualViewport.addEventListener('scroll', adjustForKeyboard);
+
+    // Auto-scroll to bottom on new messages
+    var observer = new MutationObserver(function() {
+        var msgs = document.querySelectorAll('.stChatMessage');
+        if (msgs.length > 0) {
+            setTimeout(function() {
+                msgs[msgs.length - 1].scrollIntoView({block: 'end', behavior: 'smooth'});
+            }, 100);
+        }
+    });
+
+    // Observe the chat container for new messages
+    setTimeout(function() {
+        var chatContainer = document.querySelector('[data-testid="stChatMessageContainer"]')
+            || document.querySelector('.stChatMessageContainer')
+            || document.querySelector('.block-container');
+        if (chatContainer) {
+            observer.observe(chatContainer, {childList: true, subtree: true});
+        }
+    }, 1000);
+})();
+</script>
 """, unsafe_allow_html=True)
 
 # ── Sticky header ───────────────────────────────────────────────────
