@@ -73,7 +73,7 @@ st.markdown("""
 /* ─── Chat area ─── */
 .stChatMessageContainer,
 [data-testid="stChatMessageContainer"] {
-    padding-bottom: 110px !important;
+    padding-bottom: 140px !important;
 }
 
 /* ─── Hide ALL avatars — nuke every possible selector ─── */
@@ -147,7 +147,7 @@ footer[class*="footer"], footer {
     border-top: 1px solid #2a3942 !important;
     padding: 8px 12px !important;
     position: fixed !important;
-    bottom: 30px !important;
+    bottom: 50px !important;
     left: 0 !important;
     right: 0 !important;
     z-index: 998 !important;
@@ -215,7 +215,7 @@ footer[class*="footer"], footer {
     [data-testid="stChatInput"] {
         max-width: 100% !important;
         padding: 6px 6px !important;
-        bottom: 24px !important;
+        bottom: 50px !important;
     }
     .stChatInput {
         gap: 6px !important;
@@ -259,7 +259,7 @@ footer[class*="footer"], footer {
     .stChatMessageContainer,
     [data-testid="stChatMessageContainer"] {
         padding-top: 60px !important;
-        padding-bottom: 100px !important;
+        padding-bottom: 130px !important;
     }
 }
 </style>
