@@ -73,7 +73,7 @@ st.markdown("""
 /* ─── Chat area ─── */
 .stChatMessageContainer,
 [data-testid="stChatMessageContainer"] {
-    padding-bottom: 80px !important;
+    padding-bottom: 110px !important;
 }
 
 /* ─── Hide ALL avatars — nuke every possible selector ─── */
@@ -135,14 +135,19 @@ st.markdown("""
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
 
-/* ─── Chat input — dark bottom bar ─── */
+/* ─── Hide Streamlit footer ─── */
+footer[class*="footer"], footer {
+    display: none !important;
+}
+
+/* ─── Chat input — dark bottom bar, raised above footer ─── */
 .stChatFloatingInputContainer,
 [data-testid="stChatInput"] {
     background-color: #1f2c34 !important;
     border-top: 1px solid #2a3942 !important;
     padding: 8px 12px !important;
     position: fixed !important;
-    bottom: 0 !important;
+    bottom: 30px !important;
     left: 0 !important;
     right: 0 !important;
     z-index: 998 !important;
@@ -209,15 +214,30 @@ st.markdown("""
     .stChatFloatingInputContainer,
     [data-testid="stChatInput"] {
         max-width: 100% !important;
-        padding: 6px 8px !important;
+        padding: 6px 6px !important;
+        bottom: 24px !important;
+    }
+    .stChatInput {
+        gap: 6px !important;
+    }
+    .stChatInput textarea {
+        font-size: 15px !important;
+        padding: 8px 10px !important;
+        min-height: 36px !important;
+    }
+    .stChatInput button {
+        min-width: 36px !important;
+        min-height: 36px !important;
+        width: 36px !important;
+        height: 36px !important;
     }
     .stChatMessage {
-        max-width: 88% !important;
-        padding: 6px 12px !important;
+        max-width: 85% !important;
+        padding: 6px 10px !important;
     }
     .stChatMessage[data-testid="chat-message-user"] *,
     .stChatMessage[data-testid="chat-message-assistant"] * {
-        font-size: 0.9rem !important;
+        font-size: 0.85rem !important;
     }
     .wa-header {
         padding: 10px 12px;
@@ -235,15 +255,11 @@ st.markdown("""
     .wa-header-info h3 {
         font-size: 0.95rem;
     }
-    .stChatInput textarea {
-        font-size: 16px !important;
-        padding: 8px 12px !important;
-    }
     /* Pad content so it's not hidden behind fixed header/input */
     .stChatMessageContainer,
     [data-testid="stChatMessageContainer"] {
         padding-top: 60px !important;
-        padding-bottom: 70px !important;
+        padding-bottom: 100px !important;
     }
 }
 </style>
