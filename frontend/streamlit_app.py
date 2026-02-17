@@ -76,15 +76,27 @@ st.markdown("""
     padding-bottom: 80px !important;
 }
 
-/* ─── Hide ALL avatars ─── */
+/* ─── Hide ALL avatars — nuke every possible selector ─── */
 .stChatMessage .stAvatar,
+.stChatMessage [data-testid*="avatar"],
+.stChatMessage [data-testid*="Avatar"],
+.stChatMessage [class*="avatar"],
+.stChatMessage [class*="Avatar"],
+.stChatMessage > div:first-child,
+[data-testid="chatAvatarIcon-user"],
+[data-testid="chatAvatarIcon-assistant"],
 [data-testid="stChatMessageAvatarUser"],
-[data-testid="stChatMessageAvatarAssistant"],
-.stChatMessage img,
-.stChatMessage svg {
+[data-testid="stChatMessageAvatarAssistant"] {
     display: none !important;
     width: 0 !important;
     height: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    flex: 0 0 0px !important;
+    opacity: 0 !important;
 }
 
 /* ─── Shared bubble style ─── */
@@ -303,6 +315,18 @@ st.markdown("""
 # ── Session state ───────────────────────────────────────────────────
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+# ── Beta notice (centered in chat area, like WhatsApp date/encryption pill) ──
+if not st.session_state.messages:
+    st.markdown("""
+    <div style="text-align: center; padding: 20px 16px;">
+        <span style="background-color: #1a2930; color: #8696a0; font-size: 0.73rem;
+                     padding: 6px 14px; border-radius: 8px; letter-spacing: 0.3px;
+                     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+            Beta &middot; Each message is treated independently
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ── Render chat history ─────────────────────────────────────────────
 for msg in st.session_state.messages:
